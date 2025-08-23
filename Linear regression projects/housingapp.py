@@ -3,8 +3,8 @@ import streamlit as st
 import numpy as np
 import pandas as pd
 
-preprocessor=joblib.load(r"C:\Users\Siddharth Verma\Documents\COURSE\python\Linear regression projects\preprocessor.joblib")
-model=joblib.load(r"C:\Users\Siddharth Verma\Documents\COURSE\python\Linear regression projects\model.joblib")
+preprocessor=joblib.load("preprocessor.joblib")
+model=joblib.load("model.joblib")
 
 st.title("🏠 California House Price Prediction")
 
