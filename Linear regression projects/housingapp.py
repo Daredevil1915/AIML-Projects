@@ -8,6 +8,10 @@ SCRIPT_DIR = Path(__file__).parent
 PREPROCESSOR_PATH = SCRIPT_DIR/"preprocessor.joblib"
 MODEL_PATH = SCRIPT_DIR/"model.joblib"
 
+
+preprocessor = joblib.load(PREPROCESSOR_PATH)
+model = joblib.load(MODEL_PATH)
+
 st.title("🏠 California House Price Prediction")
 
 total_bedrooms=st.number_input("Total Bedrooms in that area",min_value=0.0,format="%.0f")
