@@ -2,9 +2,11 @@ import joblib
 import streamlit as st
 import numpy as np
 import pandas as pd
+from pathlib import Path
 
-preprocessor=joblib.load("preprocessor.joblib")
-model=joblib.load("model.joblib")
+SCRIPT_DIR = Path(__file__).parent
+PREPROCESSOR_PATH = SCRIPT_DIR/"preprocessor.joblib"
+MODEL_PATH = SCRIPT_DIR/"model.joblib"
 
 st.title("🏠 California House Price Prediction")
 
