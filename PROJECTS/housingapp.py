@@ -31,7 +31,10 @@ else:
 
 
 if st.button("Predict Price"):
-    input_df = pd.DataFrame([{
+    if total_bedrooms==0 and median_income==0 and housing_median_age==0:
+        st.success("🏡Estimated House Price: $0.00")
+    else:    
+        input_df = pd.DataFrame([{
     "housing_median_age": housing_median_age,
     "median_income": median_income,
     "rooms_per_house": rooms_per_house,
@@ -40,7 +43,7 @@ if st.button("Predict Price"):
     "ocean_proximity": ocean_proximity
     }])
 
-    prediction=model.predict(input_df)
-    prediction=np.expm1(prediction) 
+        prediction=model.predict(input_df)
+        prediction=np.expm1(prediction) 
 
-    st.success(f"🏡Estimated House Price: ${prediction[0]:,.2f}")
+        st.success(f"🏡Estimated House Price: ${prediction[0]:,.2f}")
