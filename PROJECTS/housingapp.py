@@ -22,7 +22,7 @@ rooms_per_house=st.number_input("Rooms per House", min_value=0.0, format="%.2f")
 population_per_household=st.number_input("Population per Household", min_value=0.0, format="%.2f")
 ocean_proximity=st.selectbox("Ocean Proximity", ["<1H OCEAN", "INLAND", "ISLAND", "NEAR BAY", "NEAR OCEAN"])
 
-median_income=median_income/10000
+
 
 if(households>0):
     bedrooms_per_house=total_bedrooms/households
@@ -33,7 +33,8 @@ else:
 if st.button("Predict Price"):
     if total_bedrooms==0 and median_income==0 and housing_median_age==0:
         st.success("🏡Estimated House Price: $0.00")
-    else:    
+    else:
+        median_income=median_income/10000
         input_df = pd.DataFrame([{
     "housing_median_age": housing_median_age,
     "median_income": median_income,
