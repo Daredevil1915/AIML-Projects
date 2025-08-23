@@ -14,12 +14,12 @@ model = joblib.load(MODEL_PATH)
 
 st.title("🏠 California House Price Prediction")
 
-total_bedrooms=st.number_input("Total Bedrooms in that area",min_value=0.0,format="%.0f")
-households=st.number_input("Total Households",min_value=1.0,format="%.0f")
-median_income=st.number_input("Median Income of that area", min_value=0.0, format="%.4f")
-housing_median_age=st.number_input("Housing Median Age", min_value=0.0, format="%.0f")
-rooms_per_house=st.number_input("Rooms per House", min_value=0.0, format="%.2f")
-population_per_household=st.number_input("Population per Household", min_value=0.0, format="%.2f")
+total_bedrooms=st.number_input("Total Bedrooms in that area",min_value=0,value=0,step=1)
+households=st.number_input("Total Households",min_value=1,value=1,step=1)
+median_income=st.number_input("Median Income of that area", min_value=0.0,format="%.4f",value=35000.0,step=1000.0)
+housing_median_age=st.number_input("Housing Median Age", min_value=0,value=25,step=1)
+rooms_per_house=st.number_input("Rooms per House", min_value=0.0,value=5.0,format="%.2f",step=0.5)
+population_per_household=st.number_input("Population per Household", min_value=0.0,value=3.0,format="%.2f",step=0.1)
 ocean_proximity=st.selectbox("Ocean Proximity", ["<1H OCEAN", "INLAND", "ISLAND", "NEAR BAY", "NEAR OCEAN"])
 
 
