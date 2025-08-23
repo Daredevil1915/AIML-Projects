@@ -21,3 +21,7 @@ __pycache__/
 # OS files
 .DS_Store
 Thumbs.db
+app.py
+linear.ipynb
+test.py
+webapp.pygit
