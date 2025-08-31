@@ -1,22 +1,78 @@
+<!DOCTYPE html>
 <html>
-  <body>
-    <div class="login">
-      <h1>FWI Prediction</h1>
-      <!-- Main Input For Receiving Query to our ML -->
-      <form action="{{ url_for('predict_datapoint') }}" method="post">
-        <input type="text" name="Temperature" placeholder="Temperature" required="required" /><br>
-        <input type="text" name="RH" placeholder="RH" required="required" /><br>
-        <input type="text" name="Ws" placeholder="Ws" required="required" /><br>
-        <input type="text" name="Rain" placeholder="Rain" required="required" /><br>
-        <input type="text" name="FFMC" placeholder="FFMC" required="required" /><br>
-        <input type="text" name="DMC" placeholder="DMC" required="required" /><br>
-        <input type="text" name="DC" placeholder="DC" required="required" /><br>
-        <input type="text" name="ISI" placeholder="ISI" required="required" /><br>
-        <input type="text" name="Classes" placeholder="Classes" required="required" /><br>
-        <input type="text" name="Region" placeholder="Region" required="required" /><br>
-        <button type="submit" class="btn btn-primary btn-block btn-large">Predict</button>
-      </form>
-      <h2>The fwi Prediction is {{results}}</h2>
-    </div>
-  </body>
+<head>
+  <style>
+    body {
+      background: linear-gradient(to right, #89f7fe, #66a6ff);
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .login {
+      width: 400px;
+      margin: 80px auto; 
+      padding: 30px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 25px;
+      color: #333;
+    }
+
+    input[type="text"] {
+      width: 90%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
+    button {
+      width: 95%;
+      padding: 12px;
+      margin-top: 15px;
+      border: none;
+      border-radius: 8px;
+      background: #4a90e2;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #357abd;
+    }
+
+    h2 {
+      margin-top: 30px;
+      color: #222;
+    }
+  </style>
+</head>
+<body>
+  <div class="login">
+    <h1>FWI Prediction</h1>
+    <!-- Main Input For Receiving Query to our ML -->
+    <form action="{{ url_for('predict_datapoint') }}" method="post">
+      <input type="text" name="Temperature" placeholder="Temperature" required="required" /><br>
+      <input type="text" name="RH" placeholder="RH" required="required" /><br>
+      <input type="text" name="Ws" placeholder="Ws" required="required" /><br>
+      <input type="text" name="Rain" placeholder="Rain" required="required" /><br>
+      <input type="text" name="FFMC" placeholder="FFMC" required="required" /><br>
+      <input type="text" name="DMC" placeholder="DMC" required="required" /><br>
+      <input type="text" name="DC" placeholder="DC" required="required" /><br>
+      <input type="text" name="ISI" placeholder="ISI" required="required" /><br>
+      <input type="text" name="Classes" placeholder="Classes" required="required" /><br>
+      <input type="text" name="Region" placeholder="Region" required="required" /><br>
+      <button type="submit">Predict</button>
+    </form>
+    <h2>The FWI Prediction is {{results}}</h2>
+  </div>
+</body>
 </html>
