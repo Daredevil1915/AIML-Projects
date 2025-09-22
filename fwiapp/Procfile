@@ -1,1 +1,1 @@
-web: streamlit run application.py --server.port 8000 --server.headless true
+web: gunicorn --bind 0.0.0.0:$PORT application:app
