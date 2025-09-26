@@ -31,16 +31,13 @@ def index():
             Classes = float(request.form.get('Classes'))
             Region = float(request.form.get('Region'))
 
-            input_data = np.array([[Temperature, RH, Ws, Rain, FFMC, DMC, DC, ISI, Classes, Region]])
             
-            # --- THIS IS THE FIX ---
-            # 1. Scale the input data using the scaler you loaded
-            scaled_data = scaler.transform(input_data)
-            # 2. Predict using the scaled data
-            prediction = model.predict(scaled_data)
-            # --- END OF FIX ---
-
+            input_data = np.array([[Temperature, RH, Ws, Rain, FFMC, DMC, DC, ISI, Classes, Region]])
+            scaled_data = scaler.transform(input_data)  # <-- THIS IS THE FIX
+            prediction = model.predict(scaled_data)     # <-- Use the scaled data
             result = prediction[0]
+            
+          
 
         except Exception as e:
             result = f"Error: {str(e)}"
