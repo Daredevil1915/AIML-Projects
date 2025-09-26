@@ -8,7 +8,7 @@ app = Flask(__name__)
 with open("model.pkl", "rb") as f:
     model = pickle.load(f)
 
-with open("scaler.pkl", "rb") as f:
+with open("Scaler.pkl", "rb") as f:
     scaler = pickle.load(f)
 
 @app.route("/", methods=["GET", "POST"])
