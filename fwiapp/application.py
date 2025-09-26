@@ -1,48 +1,42 @@
-import os
-from flask import Flask, request, render_template
+from flask import Flask, render_template, request
 import numpy as np
+import pandas as pd
 import pickle
+from sklearn.preprocessing import StandardScaler
 
-application = Flask(__name__)
+app = Flask(__name__)
+with open("model.pkl", "rb") as f:
+    model = pickle.load(f)
 
+with open("scaler.pkl", "rb") as f:
+    scaler = pickle.load(f)
 
-script_dir = os.path.dirname(os.path.realpath(__file__))
-
-model_path = os.path.join(script_dir, "model.pkl")
-
-
-model = pickle.load(open(model_path, "rb"))
-
-
-@application.route('/', methods=['GET', 'POST'])
+@app.route("/", methods=["GET", "POST"])
 def index():
-    result = ""
-    if request.method == 'POST':
+    result = None
+    if request.method == "POST":
         try:
-   
-            Temperature = float(request.form.get('Temperature'))
-            RH = float(request.form.get('RH'))
-            Ws = float(request.form.get('Ws'))
-            Rain = float(request.form.get('Rain'))
-            FFMC = float(request.form.get('FFMC'))
-            DMC = float(request.form.get('DMC'))
-            DC = float(request.form.get('DC'))
-            ISI = float(request.form.get('ISI'))
-            Classes = float(request.form.get('Classes'))
-            Region = float(request.form.get('Region'))
-
-            
-            input_data = np.array([[Temperature, RH, Ws, Rain, FFMC, DMC, DC, ISI, Classes, Region]])
-            scaled_data = scaler.transform(input_data)  # <-- THIS IS THE FIX
-            prediction = model.predict(scaled_data)     # <-- Use the scaled data
-            result = prediction[0]
-            
-          
+            features = [
+                float(request.form["Temperature"]),
+                float(request.form["RH"]),
+                float(request.form["Ws"]),
+                float(request.form["Rain"]),
+                float(request.form["FFMC"]),
+                float(request.form["DMC"]),
+                float(request.form["ISI"]),
+                int(request.form["Classes"]),
+                int(request.form["Region"])
+            ]
+            input_df = pd.DataFrame([features], columns=[
+                'Temperature', 'RH', 'Ws', 'Rain', 'FFMC', 'DMC', 'ISI', 'Classes', 'Region'
+            ])
+            input_scaled = scaler.transform(input_df)
+            prediction = model.predict(input_scaled)[0]
+            result = float(prediction)
+            result = max(0, result)
 
         except Exception as e:
             result = f"Error: {str(e)}"
-
-    return render_template('home.html', results=result)
-
+    return render_template("home.html", results=result)
 if __name__ == "__main__":
-    application.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=True)

@@ -1,51 +1,210 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <style>
-    body {
-      background: linear-gradient(to right, #89f7fe, #66a6ff);
-      font-family: Arial, sans-serif;
-      margin: 0;
-      padding: 0;
-    }
-    .login {
-      width: 400px;
-      margin: 80px auto;
-      padding: 30px;
-      background: white;
-      border-radius: 12px;
-      box-shadow: 0px 4px 15px rgba(0,0,0,0.2);
-      text-align: center;
-    }
-    h1 { margin-bottom: 25px; color: #333; }
-    input[type="text"] {
-      width: 90%; padding: 10px; margin: 8px 0; border-radius: 8px; border: 1px solid #ccc;
-    }
-    button {
-      width: 95%; padding: 12px; margin-top: 15px; border: none; border-radius: 8px;
-      background: #4a90e2; color: white; font-size: 16px; cursor: pointer;
-    }
-    button:hover { background: #357abd; }
-    h2 { margin-top: 30px; color: #222; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Forest Fire Weather Index</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+:root {
+    --card-background: rgba(255, 255, 255, 0.85);
+    --text-color: #2c3e50;
+    --label-color: #34495e;
+    --border-color: #bdc3c7;
+    --shadow-color: rgba(44, 62, 80, 0.2);
+    --low-risk: #27ae60;
+    --moderate-risk: #f39c12;
+    --high-risk: #e67e22;
+    --extreme-risk: #c0392b;
+}
+
+* { box-sizing: border-box; }
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    background-image: url('https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&w=2000&q=80');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    width: 100%;
+    max-width: 850px;
+    background: var(--card-background);
+    padding: 40px 50px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px var(--shadow-color);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+header { text-align: center; margin-bottom: 35px; }
+header h1 { color: var(--text-color); font-size: 2.5em; margin: 0; font-weight: 700; }
+
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px 30px; }
+.form-group { text-align: left; }
+
+label { display: block; margin-bottom: 8px; color: var(--label-color); font-size: 0.9em; font-weight: 600; }
+input, select {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 1em;
+    font-family: 'Poppins', sans-serif;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+input:focus, select:focus {
+    outline: none;
+    border-color: #3a7bd5;
+    box-shadow: 0 0 0 4px rgba(58, 123, 213, 0.2);
+}
+
+.predict-button {
+    grid-column: 1 / -1;
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #3a7bd5, #3a6073);
+    color: white;
+    font-size: 1.2em;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+}
+.predict-button:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(58, 123, 213, 0.3); }
+
+.result-box { margin-top: 40px; padding: 25px; border-radius: 12px; color: white; text-align: center; }
+.result-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255, 255, 255, 0.5); padding-bottom: 15px; margin-bottom: 15px; }
+.result-header h3 { margin: 0; font-size: 1.4em; font-weight: 600; text-transform: uppercase; }
+.result-header h1 { margin: 0; font-size: 2.8em; font-weight: 700; }
+.result-description { margin: 0; font-size: 1.1em; }
+
+.alert-low { background-color: var(--low-risk); }
+.alert-moderate { background-color: var(--moderate-risk); }
+.alert-high { background-color: var(--high-risk); }
+.alert-extreme { background-color: var(--extreme-risk); }
+
+@media (max-width: 600px) {
+    .form-grid { grid-template-columns: 1fr; }
+    .container { padding: 25px; }
+    header h1 { font-size: 1.8em; }
+}
+</style>
 </head>
 <body>
-  <div class="login">
-    <h1>FWI Prediction</h1>
-    <form action="/" method="post">
-      <input type="text" name="Temperature" placeholder="Temperature" required /><br>
-      <input type="text" name="RH" placeholder="RH" required /><br>
-      <input type="text" name="Ws" placeholder="Ws" required /><br>
-      <input type="text" name="Rain" placeholder="Rain" required /><br>
-      <input type="text" name="FFMC" placeholder="FFMC" required /><br>
-      <input type="text" name="DMC" placeholder="DMC" required /><br>
-      <input type="text" name="DC" placeholder="DC" required /><br>
-      <input type="text" name="ISI" placeholder="ISI" required /><br>
-      <input type="text" name="Classes" placeholder="Classes" required /><br>
-      <input type="text" name="Region" placeholder="Region" required /><br>
-      <button type="submit">Predict</button>
-    </form>
-    <h2>The FWI Prediction is {{ results }}</h2>
-  </div>
+<div class="container">
+<header><h1>Forest Fire Weather Index</h1></header>
+<form action="/" method="post">
+<div class="form-grid">
+
+    <div class="form-group">
+        <label for="Temperature">Temperature (°C)</label>
+        <input type="number" step="0.01" name="Temperature" placeholder="22.0 to 42.0"
+               value="{{ request.form.Temperature if request.form.Temperature else '' }}" required>
+    </div>
+    <div class="form-group">
+        <label for="RH">Relative Humidity (%)</label>
+        <input type="number" step="0.01" name="RH" placeholder="21.0 to 90.0"
+               value="{{ request.form.RH if request.form.RH else '' }}" required>
+    </div>
+    <div class="form-group">
+        <label for="Ws">Wind Speed (km/h)</label>
+        <input type="number" step="0.01" name="Ws" placeholder="6.0 to 29.0"
+               value="{{ request.form.Ws if request.form.Ws else '' }}" required>
+    </div>
+    <div class="form-group">
+        <label for="Rain">Rain (mm)</label>
+        <input type="number" step="0.01" name="Rain" placeholder="0.0 to 16.8"
+               value="{{ request.form.Rain if request.form.Rain else '' }}" required>
+    </div>
+    <div class="form-group">
+        <label for="FFMC">Fine Fuel Moisture Code</label>
+        <input type="number" step="0.01" name="FFMC" placeholder="28.6 to 96.2"
+               value="{{ request.form.FFMC if request.form.FFMC else '' }}" required>
+    </div>
+    <div class="form-group">
+        <label for="DMC">Duff Moisture Code</label>
+        <input type="number" step="0.01" name="DMC" placeholder="1.1 to 65.9"
+               value="{{ request.form.DMC if request.form.DMC else '' }}" required>
+    </div>
+    <div class="form-group">
+        <label for="ISI">Initial Spread Index</label>
+        <input type="number" step="0.01" name="ISI" placeholder="0.0 to 18.5"
+               value="{{ request.form.ISI if request.form.ISI else '' }}" required>
+    </div>
+    <div class="form-group">
+        <label for="Classes">Initial State</label>
+        <select name="Classes" required>
+            <option value="" disabled {% if not request.form.Classes %}selected{% endif %}>Select Fire State</option>
+            <option value="0" {% if request.form.Classes == '0' %}selected{% endif %}>Not Fire</option>
+            <option value="1" {% if request.form.Classes == '1' %}selected{% endif %}>Fire</option>
+        </select>
+    </div>
+    <div class="form-group" style="grid-column: 1 / -1; display: flex; justify-content: center;">
+        <div style="width: 100%; max-width: 395px;">
+            <label for="Region">Geographical Region</label>
+            <select name="Region" required>
+                <option value="" disabled {% if not request.form.Region %}selected{% endif %}>Select Region</option>
+                <option value="0" {% if request.form.Region == '0' %}selected{% endif %}>Sidi-Bel Abbes</option>
+                <option value="1" {% if request.form.Region == '1' %}selected{% endif %}>Bejaia</option>
+            </select>
+        </div>
+    </div>
+
+    <button type="submit" class="predict-button">Calculate FWI</button>
+</div>
+</form>
+
+{% if results is not none %}
+    {% if results is string and "Error" in results %}
+        <div class="result-box alert-extreme">
+            <h2>{{ results }}</h2>
+        </div>
+    {% else %}
+        {% set fwi_value = results|float %}
+        {% if fwi_value <= 5 %}
+            {% set danger_level = 'Low' %}
+            {% set danger_class = 'alert-low' %}
+            {% set description = 'Fire danger is low. Fires are unlikely to start or spread.' %}
+        {% elif fwi_value <= 16 %}
+            {% set danger_level = 'Moderate' %}
+            {% set danger_class = 'alert-moderate' %}
+            {% set description = 'Fires can start and spread with moderate difficulty.' %}
+        {% elif fwi_value <= 31 %}
+            {% set danger_level = 'High' %}
+            {% set danger_class = 'alert-high' %}
+            {% set description = 'Fires start easily, spread rapidly, and are challenging to control.' %}
+        {% else %}
+            {% set danger_level = 'Extreme' %}
+            {% set danger_class = 'alert-extreme' %}
+            {% set description = 'Fires will start and spread very easily, and are extremely difficult to control.' %}
+        {% endif %}
+
+        <div class="result-box {{ danger_class }}">
+            <div class="result-header">
+                <h3>{{ danger_level }} Danger</h3>
+                <h1>{{ "%.2f"|format(fwi_value) }}</h1>
+            </div>
+            <p class="result-description">{{ description }}</p>
+        </div>
+    {% endif %}
+{% endif %}
+</div>
 </body>
 </html>
