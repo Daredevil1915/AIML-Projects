@@ -7,12 +7,11 @@ application = Flask(__name__)
 
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
+
 model_path = os.path.join(script_dir, "model.pkl")
 
 
 model = pickle.load(open(model_path, "rb"))
-scaler_path = os.path.join(script_dir, "Scaler.pkl")
-scaler = pickle.load(open(scaler_path, "rb"))
 
 
 @application.route('/', methods=['GET', 'POST'])
