@@ -1,13 +1,9 @@
 version: 0.2
-
 phases:
   build:
     commands:
-      - echo "Entering fwiapp directory..."
       - cd fwiapp
-      - echo "Zipping contents of fwiapp..."
       - zip -r ../application.zip .
-
 artifacts:
   files:
     - application.zip
