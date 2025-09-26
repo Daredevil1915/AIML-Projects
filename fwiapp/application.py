@@ -1,19 +1,26 @@
+import os
 from flask import Flask, request, render_template
 import numpy as np
 import pickle
 
-# WSGI callable for EB
 application = Flask(__name__)
 
-# Load saved model
-model = pickle.load(open("model.pkl", "rb"))
+
+script_dir = os.path.dirname(os.path.realpath(__file__))
+model_path = os.path.join(script_dir, "model.pkl")
+
+
+model = pickle.load(open(model_path, "rb"))
+scaler_path = os.path.join(script_dir, "Scaler.pkl")
+scaler = pickle.load(open(scaler_path, "rb"))
+
 
 @application.route('/', methods=['GET', 'POST'])
 def index():
     result = ""
     if request.method == 'POST':
         try:
-            # Get form values
+   
             Temperature = float(request.form.get('Temperature'))
             RH = float(request.form.get('RH'))
             Ws = float(request.form.get('Ws'))
@@ -25,9 +32,15 @@ def index():
             Classes = float(request.form.get('Classes'))
             Region = float(request.form.get('Region'))
 
-            # Prepare input and predict
             input_data = np.array([[Temperature, RH, Ws, Rain, FFMC, DMC, DC, ISI, Classes, Region]])
-            prediction = model.predict(input_data)
+            
+            # --- THIS IS THE FIX ---
+            # 1. Scale the input data using the scaler you loaded
+            scaled_data = scaler.transform(input_data)
+            # 2. Predict using the scaled data
+            prediction = model.predict(scaled_data)
+            # --- END OF FIX ---
+
             result = prediction[0]
 
         except Exception as e:
@@ -36,5 +49,4 @@ def index():
     return render_template('home.html', results=result)
 
 if __name__ == "__main__":
-    # Only for local testing
     application.run(debug=True, host='0.0.0.0', port=5000)
